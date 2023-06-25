@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codigowidgets.zestypantry">
    <application
-        android:label="zestypantry"
+        android:label="ZestyPantry"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
