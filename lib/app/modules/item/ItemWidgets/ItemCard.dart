@@ -43,6 +43,7 @@ class HomePagePost extends StatelessWidget {
             onTap: (){
               //Navigator.pushNamed(context, "ItemPage");
               Fluttertoast.showToast(msg: itemName);
+              Get.toNamed("/item", arguments: theItem);
             },
             child: Image.asset(itemImage ?? "assets/imgs/cover2.jpg",
               fit: BoxFit.contain,
@@ -81,20 +82,29 @@ class HomePagePost extends StatelessWidget {
                       ),),
                     const Spacer(),
 
-                    Obx(() => InkWell(
-                      onTap: (){
-                        Fluttertoast.showToast(msg: "Added To Cart!");
-                        //cartButtonView.value = !cartButtonView.value;
-                        //cartItemsCount++;
-                        final cartItem = [itemName, itemPrice, itemUnit, itemQuantity];
-                        cartItems.add(cartItem);
-                        cartItemsCount.value = cartItems.length;
-                      },
-                      child: const Icon(Icons.add_shopping_cart,
-                        color: Color(0xFFFFB608),
-                        size: 25,),
+                    Container(
+                      height: 35,
+                      width: 35,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        shape: BoxShape.circle
+                      ),
+                      child: InkWell(
+                        onTap: (){
+                          Fluttertoast.showToast(msg: "Added To Cart!");
 
-                    )),
+                          //cartButtonView.value = !cartButtonView.value;
+                          //cartItemsCount++;
+                          final cartItem = [itemName, itemPrice, itemUnit, itemQuantity];
+                          cartItems.add(cartItem);
+                          cartItemsCount.value = cartItems.length;
+                        },
+                        child: const Icon(Icons.add_shopping_cart,
+                          color: Colors.white70,
+                          size: 23,),
+
+                      ),
+                    ),
 
                     // Obx(() => InkWell(
                     //   onTap: (){
