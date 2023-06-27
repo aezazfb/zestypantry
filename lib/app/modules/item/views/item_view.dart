@@ -89,7 +89,7 @@ class ItemView extends GetView<ItemController> {
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFFFB608),
                       ),),
-                     Text("400G${data["price"]}",
+                     Text("Per ${data["unit"]}",
                       style: TextStyle(
                         fontSize: 15,
                       ),)
@@ -167,7 +167,7 @@ class ItemView extends GetView<ItemController> {
                             ]
                         ),
 
-                        child: Image.asset("myassets/$x.png",
+                        child: Image.asset("assets/1.png",
                           fit: BoxFit.contain,
                         ),
 

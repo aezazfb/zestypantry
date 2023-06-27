@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:zestypantry/app/data/models/product_model.dart';
 import 'package:zestypantry/globalVariables.dart';
 
 class HomePagePost extends StatelessWidget {
-  const HomePagePost({
+   HomePagePost({
     super.key,
     required this.itemName,
     this.itemPrice,
@@ -23,9 +25,14 @@ class HomePagePost extends StatelessWidget {
   final String? itemImage;
   final String? postTitle;
 
+  dynamic mappedProduct;
+
 
   @override
   Widget build(BuildContext context) {
+    if(theItem!=  null){
+      mappedProduct = Product.fromDocumentSnapshot(theItem);
+    }
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -45,7 +52,19 @@ class HomePagePost extends StatelessWidget {
               Fluttertoast.showToast(msg: itemName);
               Get.toNamed("/item", arguments: theItem);
             },
-            child: Image.asset(itemImage ?? "assets/imgs/cover2.jpg",
+            child: mappedProduct.productImage !=  null ? CachedNetworkImage(
+            imageUrl: mappedProduct.productImage ?? itemImage ?? "assets/imgs/cover2.jpg",
+            fit: BoxFit.contain,
+            height: 130,
+            width: 120,
+            filterQuality: FilterQuality.high,
+            placeholder: (context, url) => const Center(
+            child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) =>
+            const Icon(Icons.error),
+            ) :
+    Image.asset(mappedProduct.productImage ?? itemImage ?? "assets/imgs/cover2.jpg",
               fit: BoxFit.contain,
               height: 130,
               width: 120,),
@@ -67,14 +86,14 @@ class HomePagePost extends StatelessWidget {
                 const SizedBox(height: 12,),
                 Row(
                   children: [
-                    Text("Rs ${itemPrice ?? "100"}",
+                    Text("Rs ${mappedProduct.price ?? itemPrice ?? "100"}",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFFFB608),
                       ),),
                     const SizedBox(height: 5,),
-                    Text(" / ${itemUnit ?? "item"}",
+                    Text(" / ${mappedProduct.unit ?? itemUnit ?? "item"}",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -85,7 +104,7 @@ class HomePagePost extends StatelessWidget {
                     Container(
                       height: 35,
                       width: 35,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.amber,
                         shape: BoxShape.circle
                       ),
