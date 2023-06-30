@@ -5,6 +5,8 @@ RxBool cartButtonView = false.obs;
 RxInt cartItemsCount = 0.obs;
 RxInt productsCount = 0.obs;
 RxList cartItems = [].obs;
+RxList cartAddedItems = [].obs;
+RxInt currentItemCount = 1.obs;
 
  mapMyProduct(dynamic data){
   String? name;

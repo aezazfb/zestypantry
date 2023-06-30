@@ -42,13 +42,13 @@ class HomeView extends GetView<HomeController> {
 
           onPressed: () {
             Fluttertoast.showToast(msg: "View Cart! ");
-            // Get.toNamed("/cart");
+            Get.toNamed("/cart");
             // Get.to(const CartView());
 
 
-            showDialog(context: context, builder: (BuildContext build){
-              return AddProductWidget();
-            },);
+            // showDialog(context: context, builder: (BuildContext build){
+            //   return AddProductWidget();
+            // },);
             // controller.increment();
             //
             // controller.addEmployee(Product(name: "checkign!",

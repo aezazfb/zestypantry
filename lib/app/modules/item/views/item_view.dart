@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -51,7 +52,11 @@ class ItemView extends GetView<ItemController> {
                   ],
                 ),
               ),
-              Image.asset(
+              data.productImage != null ? CachedNetworkImage(
+                  imageUrl: data.productImage,
+                width: 280,
+                fit: BoxFit.contain,
+              ) : Image.asset(
                 "assets/imgs/1.png",
                 width: 280,
                 fit: BoxFit.contain,)
@@ -76,21 +81,21 @@ class ItemView extends GetView<ItemController> {
             child:  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(data["name"].toString(),
+                Text(data.name,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),),
                  Column(
                   children: [
-                    Text("Rs ${data["price"]}",
+                    Text("Rs ${data.price}",
                       style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFFFB608),
                       ),),
-                     Text("Per ${data["unit"]}",
-                      style: TextStyle(
+                     Text("Per ${data.unit}",
+                      style: const TextStyle(
                         fontSize: 15,
                       ),)
                   ],
@@ -123,7 +128,7 @@ class ItemView extends GetView<ItemController> {
                         fontWeight: FontWeight.bold
                     ),),
                   const SizedBox(height: 8,),
-                  Text("${data["description"]}",
+                  Text("${data.description}",
                     style: const TextStyle(
                         fontSize: 18
                     ),)

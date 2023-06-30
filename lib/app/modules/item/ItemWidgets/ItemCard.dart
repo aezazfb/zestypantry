@@ -28,6 +28,8 @@ class HomePagePost extends StatelessWidget {
   dynamic mappedProduct;
 
 
+
+
   @override
   Widget build(BuildContext context) {
     if(theItem!=  null){
@@ -50,7 +52,7 @@ class HomePagePost extends StatelessWidget {
             onTap: (){
               //Navigator.pushNamed(context, "ItemPage");
               Fluttertoast.showToast(msg: itemName);
-              Get.toNamed("/item", arguments: theItem);
+              Get.toNamed("/item", arguments: mappedProduct);
             },
             child: mappedProduct.productImage !=  null ? CachedNetworkImage(
             imageUrl: mappedProduct.productImage ?? itemImage ?? "assets/imgs/cover2.jpg",
@@ -105,17 +107,50 @@ class HomePagePost extends StatelessWidget {
                       height: 35,
                       width: 35,
                       decoration: const BoxDecoration(
-                        color: Colors.amber,
-                        shape: BoxShape.circle
+                          color: Colors.amber,
+                          shape: BoxShape.circle
                       ),
                       child: InkWell(
                         onTap: (){
                           Fluttertoast.showToast(msg: "Added To Cart!");
-
                           //cartButtonView.value = !cartButtonView.value;
                           //cartItemsCount++;
-                          final cartItem = [itemName, itemPrice, itemUnit, itemQuantity];
-                          cartItems.add(cartItem);
+                          const productAddedCount = 1;
+                          bool itemAlreadyAdded = false;
+                          if(cartAddedItems.isEmpty){
+                            final addedItem = [mappedProduct.productID, productAddedCount];
+                            cartAddedItems.add(addedItem);
+                          }
+                          else{
+                            for(int indx = 0; indx < cartAddedItems.length; indx++){
+                              if(cartAddedItems[indx][0] == mappedProduct.productID){
+
+                                itemAlreadyAdded = true;
+                                // Fluttertoast.showToast(msg: "moajoud $itemAlreadyAdded");
+                                cartAddedItems[indx][1] = cartAddedItems[indx][1] +1;
+                                currentItemCount.value = cartAddedItems[indx][1];
+                                Fluttertoast.showToast(msg: "itne $currentItemCount");
+                              }
+                              // else{
+                              //   final addedItem = [mappedProduct.productID, productAddedCount];
+                              //   cartAddedItems.add(addedItem);
+                              //   currentItemCount.value = 1;
+                              // }
+                            }
+                          }
+
+                          if(!itemAlreadyAdded){
+                            final addedItem = [mappedProduct.productID, productAddedCount];
+                            cartAddedItems.add(addedItem);
+                            currentItemCount.value = 1;
+
+                            final cartItem = [mappedProduct.productID, mappedProduct.name,
+                              mappedProduct.price, mappedProduct.unit,
+                              mappedProduct.quantity, mappedProduct.productImage];
+                            cartItems.add(cartItem);
+                          }
+
+
                           cartItemsCount.value = cartItems.length;
                         },
                         child: const Icon(Icons.add_shopping_cart,

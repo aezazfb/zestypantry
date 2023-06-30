@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zestypantry/globalVariables.dart';
 
@@ -12,7 +13,7 @@ class CartItem extends StatefulWidget {
 
 class _CartItemState extends State<CartItem> {
   bool checkedValue = false;
-  int count =1;
+  int count = 1;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,22 +23,24 @@ class _CartItemState extends State<CartItem> {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount:cartItemsCount.value,
-              itemBuilder: (context,x){
+              itemBuilder: (context,index){
+                var cartAddedItemVar = cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first;
+                //List currentAddedItem = im.toList();
                 return  Container(
                   margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
                   child: Column(
                     children: [
                       Row(
                         children: [
-                          Checkbox(
-                            value: checkedValue,
-                            onChanged: (val) {
-                              setState(() {
-                                checkedValue = val!;
-                              });
-                            },
-                            activeColor: const Color(0xFFFFB608),
-                          ),
+                          // Checkbox(
+                          //   value: checkedValue,
+                          //   onChanged: (val) {
+                          //     setState(() {
+                          //       checkedValue = val!;
+                          //     });
+                          //   },
+                          //   activeColor: const Color(0xFFFFB608),
+                          // ),
                           Container(
                             height: 70,
                             width: 70,
@@ -50,13 +53,13 @@ class _CartItemState extends State<CartItem> {
                                     color: Colors.black.withOpacity(0.2))
                               ],
                             ),
-                            child: Image.asset(fit: BoxFit.contain, "myassets/1.png"),
+                            child: Image.asset(fit: BoxFit.contain, "assets/imgs/1.png"),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Column(
                               children: [
-                                Text(cartItemsCount.value > 0 ? cartItems[x][0]: "Item",
+                                Text(cartItemsCount.value > 0 ? cartItems[index][1]: "Item",
                                   style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w500,
@@ -65,21 +68,21 @@ class _CartItemState extends State<CartItem> {
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                const Row(
+                                 Row(
                                   children: [
                                     Text(
-                                      "\$4320",
-                                      style: TextStyle(
+                                      "Rs ${cartItemsCount.value > 0 ? cartItems[index][2] : 100}",
+                                      style: const TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xFFFFB608)),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     Text(
-                                      " / Unit",
-                                      style: TextStyle(
+                                      " / ${cartItemsCount.value > 0 ? cartItems[index][3] : "Unit"}",
+                                      style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xFFFFB608)),
@@ -100,7 +103,7 @@ class _CartItemState extends State<CartItem> {
                                   color: Colors.redAccent,
                                 ),
                                 onTap: (){
-                                  cartItems.removeAt(x);
+                                  cartItems.removeAt(index);
                                   cartItemsCount--;
                                 },
                               ),
@@ -111,8 +114,10 @@ class _CartItemState extends State<CartItem> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
+
                                       setState(() {
-                                        count--;
+                                        cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first[1] =
+                                            cartAddedItemVar[1] - 1;
                                       });
                                     },
                                     child: Container(
@@ -133,13 +138,17 @@ class _CartItemState extends State<CartItem> {
                                       // color: Color(0xFFFFB608),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
-                                    child: Text(count.toString()),
+                                    child: Text(cartAddedItemVar[1].toString()),
                                   ),
                                   GestureDetector(
                                     onTap: () {
+
                                       setState(() {
-                                        count++;
+                                        cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first[1] =
+                                            cartAddedItemVar[1] + 1;
                                       });
+                                      // var x = "${cartAddedItems.where((p0) => p0[0] == cartItems[index][0])}";
+                                      // Fluttertoast.showToast(msg: x);
                                     },
                                     child: Container(
                                       height: 25,

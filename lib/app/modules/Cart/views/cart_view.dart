@@ -24,9 +24,9 @@ class CartView extends GetView<CartController> {
                   },
                   child: const Icon(Icons.arrow_back_ios_new),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 7),
-                  child: const Text("MyCart",
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 7),
+                  child: Text("  MyCart",
                     style: TextStyle(
                       color: Color(0xFFFFB608),
                       fontSize: 19,
@@ -45,7 +45,7 @@ class CartView extends GetView<CartController> {
           Container(
             padding: const EdgeInsets.only(top: 5),
             color: Colors.white,
-            child: Column(
+            child: const Column(
                 children:[
                   // const Divider(height: 15, thickness: 1,),
                   // CheckboxListTile(title: const Text("Select ALl ",
