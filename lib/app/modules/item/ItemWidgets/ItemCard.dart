@@ -112,46 +112,47 @@ class HomePagePost extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: (){
-                          Fluttertoast.showToast(msg: "Added To Cart!");
-                          //cartButtonView.value = !cartButtonView.value;
-                          //cartItemsCount++;
-                          const productAddedCount = 1;
-                          bool itemAlreadyAdded = false;
-                          if(cartAddedItems.isEmpty){
-                            final addedItem = [mappedProduct.productID, productAddedCount];
-                            cartAddedItems.add(addedItem);
-                          }
-                          else{
-                            for(int indx = 0; indx < cartAddedItems.length; indx++){
-                              if(cartAddedItems[indx][0] == mappedProduct.productID){
+                          if(cartItems.isEmpty){
+                            var theItem = {"name": mappedProduct.name,
+                              "quantity": mappedProduct.quantity,
+                              "expiry": mappedProduct.expiry,
+                              "quality": mappedProduct.quality,
+                              "categoryID": mappedProduct.categoryID,
+                              "description": mappedProduct.description,
+                              "price": mappedProduct.price,
+                              "productID": mappedProduct.productID,
+                              "sellerID": mappedProduct.sellerID,
+                              "productImage": mappedProduct.productImage,
+                              "unit": mappedProduct.unit,
+                              "inStock": mappedProduct.inStock,
+                              "itemCountInCart": 1};
+                            cartItems.add(theItem);
+                            Fluttertoast.showToast(msg: "${theItem["name"]} Added to Cart!");
+                          }else{
+                            var existingItem = cartItems.where((element) => element["productID"] == mappedProduct.productID).firstOrNull;
+                            if(existingItem == null){
+                              var theItem = {"name": mappedProduct.name,
+                                "quantity": mappedProduct.quantity,
+                                "expiry": mappedProduct.expiry,
+                                "quality": mappedProduct.quality,
+                                "categoryID": mappedProduct.categoryID,
+                                "description": mappedProduct.description,
+                                "price": mappedProduct.price,
+                                "productID": mappedProduct.productID,
+                                "sellerID": mappedProduct.sellerID,
+                                "productImage": mappedProduct.productImage,
+                                "unit": mappedProduct.unit,
+                                "inStock": mappedProduct.inStock,
+                                "itemCountInCart": 1};
+                              cartItems.add(theItem);
+                              Fluttertoast.showToast(msg: "${theItem["name"]} Added to Cart!");
+                            }else{
+                              existingItem["itemCountInCart"] += 1;
+                              Fluttertoast.showToast(msg: "${existingItem["itemCountInCart"]} ${existingItem["name"]} in Cart!");
 
-                                itemAlreadyAdded = true;
-                                // Fluttertoast.showToast(msg: "moajoud $itemAlreadyAdded");
-                                cartAddedItems[indx][1] = cartAddedItems[indx][1] +1;
-                                currentItemCount.value = cartAddedItems[indx][1];
-                                Fluttertoast.showToast(msg: "itne $currentItemCount");
-                              }
-                              // else{
-                              //   final addedItem = [mappedProduct.productID, productAddedCount];
-                              //   cartAddedItems.add(addedItem);
-                              //   currentItemCount.value = 1;
-                              // }
                             }
+
                           }
-
-                          if(!itemAlreadyAdded){
-                            final addedItem = [mappedProduct.productID, productAddedCount];
-                            cartAddedItems.add(addedItem);
-                            currentItemCount.value = 1;
-
-                            final cartItem = [mappedProduct.productID, mappedProduct.name,
-                              mappedProduct.price, mappedProduct.unit,
-                              mappedProduct.quantity, mappedProduct.productImage];
-                            cartItems.add(cartItem);
-                          }
-
-
-                          cartItemsCount.value = cartItems.length;
                         },
                         child: const Icon(Icons.add_shopping_cart,
                           color: Colors.white70,

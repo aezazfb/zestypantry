@@ -18,13 +18,13 @@ class _CartItemState extends State<CartItem> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //for (int x = 0; x < cartItemsCount.value - 1; x++)
+        //for (int x = 0; x <  cartItems.length - 1; x++)
           Obx(() => ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount:cartItemsCount.value,
+              itemCount:cartItems.length,
               itemBuilder: (context,index){
-                var cartAddedItemVar = cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first;
+                //var cartAddedItemVar = cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first;
                 //List currentAddedItem = im.toList();
                 return  Container(
                   margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
@@ -59,7 +59,7 @@ class _CartItemState extends State<CartItem> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Column(
                               children: [
-                                Text(cartItemsCount.value > 0 ? cartItems[index][1]: "Item",
+                                Text( cartItems.isNotEmpty ? cartItems[index]["name"]: "Item",
                                   style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w500,
@@ -71,7 +71,7 @@ class _CartItemState extends State<CartItem> {
                                  Row(
                                   children: [
                                     Text(
-                                      "Rs ${cartItemsCount.value > 0 ? cartItems[index][2] : 100}",
+                                      "Rs ${ cartItems.isNotEmpty ? cartItems[index]["price"] : 100}",
                                       style: const TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class _CartItemState extends State<CartItem> {
                                       height: 5,
                                     ),
                                     Text(
-                                      " / ${cartItemsCount.value > 0 ? cartItems[index][3] : "Unit"}",
+                                      " / ${ cartItems.isNotEmpty ? cartItems[index]["unit"] : "Unit"}",
                                       style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -103,8 +103,12 @@ class _CartItemState extends State<CartItem> {
                                   color: Colors.redAccent,
                                 ),
                                 onTap: (){
+                                  if(cartItems.isNotEmpty){
+                                    cartSubTotal -= cartItems[index]["price"] * cartItems[index]["itemCountInCart"];
+                                    serviceCharges.value = (cartSubTotal.value * serviceChargePc).toInt();
+                                    totalOrderCharges.value = cartSubTotal.value + (cartSubTotal.value * serviceChargePc).toInt();
+                                  }
                                   cartItems.removeAt(index);
-                                  cartItemsCount--;
                                 },
                               ),
                               const SizedBox(
@@ -116,8 +120,15 @@ class _CartItemState extends State<CartItem> {
                                     onTap: () {
 
                                       setState(() {
-                                        cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first[1] =
-                                            cartAddedItemVar[1] - 1;
+                                        cartItems[index]["itemCountInCart"] -= 1;
+                                        if(cartItems.isNotEmpty){
+                                          cartSubTotal -= cartItems[index]["price"];
+                                          serviceCharges.value = (cartSubTotal.value * serviceChargePc).toInt();
+                                          totalOrderCharges.value = cartSubTotal.value + (cartSubTotal.value * serviceChargePc).toInt();
+                                        }
+                                        if(cartItems[index]["itemCountInCart"] == 0 ){
+                                          cartItems.removeAt(index);
+                                        }
                                       });
                                     },
                                     child: Container(
@@ -138,17 +149,19 @@ class _CartItemState extends State<CartItem> {
                                       // color: Color(0xFFFFB608),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
-                                    child: Text(cartAddedItemVar[1].toString()),
+                                    child: Text(cartItems[index]["itemCountInCart"].toString()),
                                   ),
                                   GestureDetector(
                                     onTap: () {
 
                                       setState(() {
-                                        cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first[1] =
-                                            cartAddedItemVar[1] + 1;
+                                        cartItems[index]["itemCountInCart"] += 1;
+                                        if(cartItems.isNotEmpty){
+                                          cartSubTotal += cartItems[index]["price"];
+                                          serviceCharges.value = (cartSubTotal.value * serviceChargePc).toInt();
+                                          totalOrderCharges.value = cartSubTotal.value + (cartSubTotal.value * serviceChargePc).toInt();
+                                        }
                                       });
-                                      // var x = "${cartAddedItems.where((p0) => p0[0] == cartItems[index][0])}";
-                                      // Fluttertoast.showToast(msg: x);
                                     },
                                     child: Container(
                                       height: 25,

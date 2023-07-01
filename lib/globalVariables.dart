@@ -2,11 +2,13 @@ import 'package:get/get.dart';
 
 RxBool isFav = false.obs;
 RxBool cartButtonView = false.obs;
-RxInt cartItemsCount = 0.obs;
 RxInt productsCount = 0.obs;
 RxList cartItems = [].obs;
-RxList cartAddedItems = [].obs;
-RxInt currentItemCount = 1.obs;
+RxInt cartSubTotal = 0.obs;
+RxInt discountAmount = 0.obs;
+double serviceChargePc = 0.07;
+RxInt serviceCharges = 0.obs;
+RxInt totalOrderCharges = 0.obs;
 
  mapMyProduct(dynamic data){
   String? name;

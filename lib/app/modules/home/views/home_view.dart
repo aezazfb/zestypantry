@@ -36,7 +36,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Obx(() => Visibility(
-        visible: cartItemsCount >= 1,
+        visible: cartItems.isNotEmpty,
         child: FloatingActionButton(
 
 
@@ -61,7 +61,7 @@ class HomeView extends GetView<HomeController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => Text("${cartItemsCount.value}"),),
+              Obx(() => Text("${cartItems.length}"),),
               const Icon(Icons.shopping_cart),
             ],
           ),
