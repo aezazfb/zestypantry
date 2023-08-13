@@ -68,7 +68,8 @@ class HomeView extends GetView<HomeController> {
         ),
       )),
       appBar: AppBar(
-        title: const Text('HomeView'),
+        backgroundColor: const Color.fromRGBO(253, 121, 168, 1),
+        title: const Text('Zesty Pantry'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

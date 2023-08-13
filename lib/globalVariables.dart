@@ -10,6 +10,13 @@ double serviceChargePc = 0.07;
 RxInt serviceCharges = 0.obs;
 RxInt totalOrderCharges = 0.obs;
 
+class RoutesStr{
+  static const HOME = '/home';
+  static const ITEM = '/item';
+  static const CART = '/cart';
+  static const ORDER = '/order';
+  static const REQUESTS = '/requests';
+}
  mapMyProduct(dynamic data){
   String? name;
   int? quantity;
@@ -50,3 +57,7 @@ RxInt totalOrderCharges = 0.obs;
   unit,
   inStock};
 }
+
+RxString thisDeviceFCMToken = ''.obs;
+
+String adminDeviceFcm = 'co8z9POcRu2Hld0hYD0GP1:APA91bEzSzz1MlJrty-P5pqiANQQYNkvTviFTjQllo6bDvdmImsQSQJXfeA5ZOLd2Lf9q0xLAgnaysOTfXPVLvtdFGYFjrQef8W8Ao6q1ap2KtII5Y1x9qZ0zQu47IIdG1iAVkmcORGG';

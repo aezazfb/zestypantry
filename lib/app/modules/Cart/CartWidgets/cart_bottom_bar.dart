@@ -62,7 +62,7 @@ class CartBottomBar extends StatelessWidget{
                )),
               GestureDetector(
                 onTap: () {
-                  Get.toNamed('/order');
+                  Get.toNamed(RoutesStr.REQUESTS);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),

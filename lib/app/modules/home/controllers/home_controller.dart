@@ -68,7 +68,12 @@ class HomeController extends GetxController {
 
   }
 
-  Future<List<Product>> retrieveProduct() async {
+  Future<void> getProduct(String documentId) async {
+    await theDatabase.collection("product").doc(documentId).get();
+
+  }
+
+  Future<List<Product>> retrieveProducts() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
     await theDatabase.collection("product").get();
     return snapshot.docs
