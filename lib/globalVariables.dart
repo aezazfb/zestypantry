@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 RxBool isFav = false.obs;
@@ -17,6 +18,11 @@ class RoutesStr{
   static const ORDER = '/order';
   static const REQUESTS = '/requests';
 }
+
+Color? themeBackGroundColor = const Color.fromRGBO(253, 121, 168, 1);
+Color? themeBtnColor = const Color.fromRGBO(253, 121, 168, 1);
+Color? themeBtnColorNoConst = Color.fromRGBO(253, 121, 168, 1);
+
  mapMyProduct(dynamic data){
   String? name;
   int? quantity;

@@ -33,11 +33,11 @@ class CartView extends GetView<CartController> {
                   },
                   child: const Icon(Icons.arrow_back_ios_new),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 7),
+                 Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
                   child: Text("MyCart",
                     style: TextStyle(
-                      color: Color(0xFFFFB608),
+                      color: themeBtnColor,
                       fontSize: 19,
                     ),),
                 ),
@@ -45,8 +45,8 @@ class CartView extends GetView<CartController> {
                 InkWell(onTap: () {
 
                 },
-                    child: const Icon(CupertinoIcons.bell_fill,
-                      color: Color(0xFFFFB608),)
+                    child:  Icon(CupertinoIcons.bell_fill,
+                      color: themeBtnColor,)
                 )
               ],
             ),
@@ -91,17 +91,17 @@ class CartView extends GetView<CartController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Sub-Total",
+                     Text("Sub-Total",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                     Text("Rs $cartSubTotal",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                   ],
                 ),
@@ -109,17 +109,17 @@ class CartView extends GetView<CartController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Service-Charges",
+                     Text("Service-Charges",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                     Text("Rs $serviceCharges",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                   ],
                 ),
@@ -127,17 +127,17 @@ class CartView extends GetView<CartController> {
                  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Discount",
+                     Text("Discount",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                     Text("Rs $discountAmount",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                   ],
                 ),
@@ -147,7 +147,7 @@ class CartView extends GetView<CartController> {
           )
         ],
       ),
-      bottomNavigationBar: CartBottomBar(),
+      bottomNavigationBar: const CartBottomBar(),
     );
   }
 }

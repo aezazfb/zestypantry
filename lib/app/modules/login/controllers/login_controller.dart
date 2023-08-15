@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +32,16 @@ class LoginController extends GetxController {
   void eyeSwitch()
   {
     isObsecure.value = !isObsecure.value;
+  }
+
+  Future signIn () async {
+
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: userTxtCtlr.text.trim(), password: passwordTxtCtlr.text.trim());
+    }
+    on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 
   void increment() => count.value++;

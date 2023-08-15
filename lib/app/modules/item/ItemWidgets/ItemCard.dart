@@ -89,10 +89,10 @@ class HomePagePost extends StatelessWidget {
                 Row(
                   children: [
                     Text("Rs ${mappedProduct.price ?? itemPrice ?? "100"}",
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFFFB608),
+                        color: themeBtnColor,
                       ),),
                     const SizedBox(height: 5,),
                     Text(" / ${mappedProduct.unit ?? itemUnit ?? "item"}",
@@ -104,12 +104,12 @@ class HomePagePost extends StatelessWidget {
                     const Spacer(),
 
                     Container(
-                      height: 35,
-                      width: 35,
-                      decoration: const BoxDecoration(
-                          color: Colors.amber,
-                          shape: BoxShape.circle
-                      ),
+                      // height: 35,
+                      // width: 35,
+                      // decoration:  BoxDecoration(
+                      //     color: themeBtnColor,
+                      //     shape: BoxShape.circle
+                      // ),
                       child: InkWell(
                         onTap: (){
                           if(cartItems.isEmpty){
@@ -154,8 +154,8 @@ class HomePagePost extends StatelessWidget {
 
                           }
                         },
-                        child: const Icon(Icons.add_shopping_cart,
-                          color: Colors.white70,
+                        child:  Icon(Icons.add_shopping_cart,
+                          color: themeBtnColor,
                           size: 23,),
 
                       ),
@@ -173,7 +173,7 @@ class HomePagePost extends StatelessWidget {
                     //     size: 29,
                     //   )
                     //       : const Icon(Icons.favorite_outline_rounded,
-                    //     color: Color(0xFFFFB608),
+                    //     color: themeBtnColor,
                     //     size: 29,),
                     //
                     // )),

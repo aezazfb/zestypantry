@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:zestypantry/globalVariables.dart';
 
 import '../controllers/item_controller.dart';
 
@@ -89,10 +90,10 @@ class ItemView extends GetView<ItemController> {
                  Column(
                   children: [
                     Text("Rs ${data.price}",
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFFFB608),
+                        color: themeBtnColor,
                       ),),
                      Text("Per ${data.unit}",
                       style: const TextStyle(

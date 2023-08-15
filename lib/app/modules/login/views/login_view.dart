@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:get/get.dart';
+import 'package:zestypantry/app/data/functionalities/firebaseMessaging.dart';
 import 'package:zestypantry/app/routes/app_pages.dart';
+import 'package:zestypantry/globalVariables.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -58,6 +60,7 @@ class LoginView extends GetView<LoginController> {
                           children: [
                             // userName
                             TextFormField(
+                              controller: controller.userTxtCtlr,
                               cursorColor: const Color.fromRGBO(234, 210, 239, 1),
                               decoration: InputDecoration(
                                 hintText: 'UserName',
@@ -82,6 +85,7 @@ class LoginView extends GetView<LoginController> {
 
                             // pswrd
                             Obx(() => TextFormField(
+                              controller: controller.passwordTxtCtlr,
                               obscureText: controller.isObsecure.value,
                               cursorColor: const Color.fromRGBO(234, 210, 239, 1),
                               decoration: InputDecoration(
@@ -118,9 +122,9 @@ class LoginView extends GetView<LoginController> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: (){
-                                  Get.toNamed(Routes.HOME);
+                                  // Get.toNamed(Routes.HOME);
+                                  controller.signIn();
                                 },
-                                child: const Text('LOGIN'),
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -130,6 +134,7 @@ class LoginView extends GetView<LoginController> {
                                   backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(253, 121, 168, 1)),
 
                                 ),
+                                child: const Text('LOGIN'),
                               ),
                             ),
                             const SizedBox(
@@ -320,8 +325,10 @@ class LoginView extends GetView<LoginController> {
                                                     width: double.infinity,
                                                     child: ElevatedButton(
                                                       onPressed: () async {
-                                                        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controller.emailSignUpTxtCtlr.text, password: controller.passwordSignUpTxtCtlr.text);
-                                                        Get.toNamed(Routes.HOME);
+                                                        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controller.emailSignUpTxtCtlr.text.trim(), password: controller.passwordSignUpTxtCtlr.text.trim());
+                                                        FirebaseApi().createPushNotification("New User", "New registration received!", await FirebaseApi().generateAccessToken(), adminDeviceFcm);
+                                                        //Get.toNamed(Routes.HOME);
+                                                        Navigator.pop(context);
                                                       },
                                                       style: ButtonStyle(
                                                         shape: MaterialStateProperty.all<

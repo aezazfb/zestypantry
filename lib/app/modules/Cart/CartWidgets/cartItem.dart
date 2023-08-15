@@ -39,19 +39,19 @@ class _CartItemState extends State<CartItem> {
                           //       checkedValue = val!;
                           //     });
                           //   },
-                          //   activeColor: const Color(0xFFFFB608),
+                          //   activeColor: const themeBtnColor,
                           // ),
                           Container(
                             height: 70,
                             width: 70,
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 255, 230, 177),
-                              boxShadow: [
-                                BoxShadow(
-                                    spreadRadius: 1,
-                                    blurRadius: 5,
-                                    color: Colors.black.withOpacity(0.2))
-                              ],
+                              // color: const Color.fromARGB(255, 255, 230, 177),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //       spreadRadius: 1,
+                              //       blurRadius: 5,
+                              //       color: Colors.black.withOpacity(0.2))
+                              // ],
                             ),
                             child: Image.asset(fit: BoxFit.contain, "assets/imgs/1.png"),
                           ),
@@ -72,20 +72,20 @@ class _CartItemState extends State<CartItem> {
                                   children: [
                                     Text(
                                       "Rs ${ cartItems.isNotEmpty ? cartItems[index]["price"] : 100}",
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFFFB608)),
+                                          color: themeBtnColor),
                                     ),
                                     const SizedBox(
                                       height: 5,
                                     ),
                                     Text(
                                       " / ${ cartItems.isNotEmpty ? cartItems[index]["unit"] : "Unit"}",
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFFFB608)),
+                                          color: themeBtnColor),
                                     ),
                                   ],
                                 )
@@ -135,7 +135,7 @@ class _CartItemState extends State<CartItem> {
                                       height: 25,
                                       width: 25,
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFFFB608),
+                                        color:  themeBtnColor,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: const Icon(CupertinoIcons.minus),
@@ -146,7 +146,7 @@ class _CartItemState extends State<CartItem> {
                                     width: 25,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      // color: Color(0xFFFFB608),
+                                      // color: themeBtnColor,
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: Text(cartItems[index]["itemCountInCart"].toString()),
@@ -167,7 +167,7 @@ class _CartItemState extends State<CartItem> {
                                       height: 25,
                                       width: 25,
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFFFB608),
+                                        color:  themeBtnColor,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: const Icon(Icons.add),

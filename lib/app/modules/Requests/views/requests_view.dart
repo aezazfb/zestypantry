@@ -153,7 +153,7 @@ class RequestsView extends GetView<RequestsController> {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                      color: const Color(0xFFFFB608),
+                      color:  themeBtnColor,
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: const Text("Order Now",

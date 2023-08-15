@@ -53,8 +53,8 @@ class CartBottomBar extends StatelessWidget{
                      ),),
                    const SizedBox(height: 5,),
                    Text("Rs $totalOrderCharges",
-                     style: const TextStyle(
-                         color: Color(0xFFFFB608),
+                     style:  TextStyle(
+                         color: themeBtnColor,
                          fontWeight: FontWeight.bold,
                          fontSize: 21
                      ),),
@@ -67,7 +67,7 @@ class CartBottomBar extends StatelessWidget{
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFB608),
+                    color:  themeBtnColor,
                     borderRadius: BorderRadius.circular(10),
 
                   ),
