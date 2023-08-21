@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zestypantry/PersonalWidgets/AddProductWidget.dart';
+import 'package:zestypantry/app/modules/home/home_view_widgets/ZestyDrawer.dart';
 import 'package:zestypantry/app/modules/item/ItemWidgets/ItemCard.dart';
 import 'package:zestypantry/app/modules/home/home_view_widgets/imgCurson.dart';
 import 'package:zestypantry/app/data/models/product_model.dart';
@@ -35,6 +36,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const ZestyDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Obx(() => Visibility(
         visible: cartItems.isNotEmpty,
@@ -62,7 +64,7 @@ class HomeView extends GetView<HomeController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => Text("${cartItems.length}"),),
+              Obx(() => Text("${cartTotalItems.value}"),),
               const Icon(Icons.shopping_cart),
             ],
           ),

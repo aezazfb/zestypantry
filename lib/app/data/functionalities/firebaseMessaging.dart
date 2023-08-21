@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
+import 'package:zestypantry/app/routes/app_pages.dart';
 import 'package:zestypantry/globalVariables.dart';
 
 Future<void> backgroundMessageHandler(RemoteMessage theMsg) async {
@@ -31,7 +32,7 @@ class FirebaseApi{
   void handleMessage(RemoteMessage? remoteMessage){
     if(remoteMessage == null) return;
 
-    Get.toNamed(RoutesStr.HOME,
+    Get.toNamed(Routes.HOME,
         arguments: remoteMessage);
   }
 

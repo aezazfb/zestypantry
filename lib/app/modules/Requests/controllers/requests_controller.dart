@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:zestypantry/app/data/Repositories/globalRepo.dart';
 import 'package:zestypantry/app/data/functionalities/firebaseMessaging.dart';
+import 'package:zestypantry/app/data/models/itemAvailable.dart';
 import 'package:zestypantry/app/data/models/requests_model.dart';
 import 'package:zestypantry/app/data/models/requests_modelOld.dart';
 import 'package:zestypantry/globalVariables.dart';
@@ -21,7 +23,8 @@ class RequestsController extends GetxController {
 
   final CollectionReference requestCollection =
   FirebaseFirestore.instance.collection("requests");
-  
+  final FirebaseFirestore theDatabase = FirebaseFirestore.instance;
+
   
   @override
   void onInit() {
@@ -50,11 +53,38 @@ class RequestsController extends GetxController {
     await requestCollection.add(request.toJson()).whenComplete(() => Fluttertoast.showToast(msg: 'Request Submitted Successfully'));
   }
 
+  Future<ItemsNotAvailable> itemQuantityCheck(RxList cartItems) async{
+    bool allItemsAvailable = true;
+    String itemsNotAvailableNames = '';
+    String quantityOfNotAvailableItems = '';
+    for(int a = 0; cartItems.value.length > a; a++){
+      var item = cartItems.value[a];
+      ItemAvailable itemQuantityCheck = await GlobalFunctions().itemQuantityCheckForOrder(item["productID"], item["itemCountInCart"]);
+
+      if(!itemQuantityCheck.available){
+        allItemsAvailable = false;
+        itemsNotAvailableNames += item["name"] + ', ';
+        quantityOfNotAvailableItems += '${itemQuantityCheck.noOfItems}, ';
+
+        if(itemQuantityCheck.noOfItems == 0){
+          Fluttertoast.showToast(msg: "${item["name"]} just sold out! ");
+        }
+        else{
+          String isAre = itemQuantityCheck.noOfItems == 1 ? "is" : "are";
+          Fluttertoast.showToast(msg: "${item["name"]} $isAre ${itemQuantityCheck.noOfItems} left! ");
+        }
+      }
+
+    }
+    ItemsNotAvailable obj = ItemsNotAvailable(allItemsAvailable, itemsNotAvailableNames, quantityOfNotAvailableItems);
+    return obj;
+  }
+
   addRequest2(Requests requestData) async {
     await FirebaseFirestore.instance.collection("requests").add(requestData.toJson())
         .whenComplete(() async {
       Fluttertoast.showToast(msg: "Request Submitted Successfully!");
-      FirebaseApi().createPushNotification("New Request", "reqeust body is this", await FirebaseApi().generateAccessToken(), adminDeviceFcm);
+      FirebaseApi().createPushNotification("New Request Received!", "${requestData.requestedItems?.length} Items Requested! \n From ${requestData.address}", await FirebaseApi().generateAccessToken(), adminDeviceFcm);
     });
   }
   

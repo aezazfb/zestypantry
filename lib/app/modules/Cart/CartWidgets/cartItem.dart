@@ -44,15 +44,15 @@ class _CartItemState extends State<CartItem> {
                           Container(
                             height: 70,
                             width: 70,
-                            decoration: BoxDecoration(
-                              // color: const Color.fromARGB(255, 255, 230, 177),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //       spreadRadius: 1,
-                              //       blurRadius: 5,
-                              //       color: Colors.black.withOpacity(0.2))
-                              // ],
-                            ),
+                            // decoration: BoxDecoration(
+                            //   color: const Color.fromARGB(255, 255, 230, 177),
+                            //   boxShadow: [
+                            //     BoxShadow(
+                            //         spreadRadius: 1,
+                            //         blurRadius: 5,
+                            //         color: Colors.black.withOpacity(0.2))
+                            //   ],
+                            // ),
                             child: Image.asset(fit: BoxFit.contain, "assets/imgs/1.png"),
                           ),
                           Padding(

@@ -5,19 +5,13 @@ RxBool isFav = false.obs;
 RxBool cartButtonView = false.obs;
 RxInt productsCount = 0.obs;
 RxList cartItems = [].obs;
+RxInt cartTotalItems = 0.obs;
 RxInt cartSubTotal = 0.obs;
 RxInt discountAmount = 0.obs;
 double serviceChargePc = 0.07;
 RxInt serviceCharges = 0.obs;
 RxInt totalOrderCharges = 0.obs;
 
-class RoutesStr{
-  static const HOME = '/home';
-  static const ITEM = '/item';
-  static const CART = '/cart';
-  static const ORDER = '/order';
-  static const REQUESTS = '/requests';
-}
 
 Color? themeBackGroundColor = const Color.fromRGBO(253, 121, 168, 1);
 Color? themeBtnColor = const Color.fromRGBO(253, 121, 168, 1);

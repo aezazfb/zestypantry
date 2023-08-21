@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:get/get.dart';
+import 'package:zestypantry/app/data/Converters/orderedItemsList.dart';
 import 'package:zestypantry/app/data/functionalities/firebaseMessaging.dart';
+import 'package:zestypantry/app/data/models/itemAvailable.dart';
 import 'package:zestypantry/app/data/models/requests_model.dart';
 import 'package:zestypantry/globalVariables.dart';
 
@@ -128,25 +131,35 @@ class RequestsView extends GetView<RequestsController> {
                   //   requestDateTime: DateTime.now()
                   // ));
 
-                  controller.addRequest2(Requests(
-                      requestDateTime: DateTime.now(),
-                      requestStatus: 'Processing',
-                      requestAmount: totalOrderCharges.value,
-                      requestDetails: 'The test Request',
-                      customerDetails: [nameCtrl.text, addressCtrl.text, mobileCtrl.text, 'customer era'],
-                      requestedItems: cartItems.value,
-                      address: addressCtrl.text,
-                      sellerID: 1,
-                      consumerContact: mobileCtrl.text,
-                      requestType: 'Pick up',
-                      discountDetails: '20%',
-                      discounted: true,
-                      riderDetails: 'Az'
+                  ItemsNotAvailable itemsCheck = await controller.itemQuantityCheck(cartItems);
+
+                  if(itemsCheck.available){
+                    controller.addRequest2(Requests(
+                        requestDateTime: DateTime.now(),
+                        requestStatus: 'Processing',
+                        requestAmount: totalOrderCharges.value,
+                        requestDetails: 'The test Request',
+                        customerDetails: [nameCtrl.text, addressCtrl.text, mobileCtrl.text, 'customer era'],
+                        requestedItems: orderedItemsList(cartItems),
+                        address: addressCtrl.text,
+                        sellerID: 1,
+                        consumerContact: mobileCtrl.text,
+                        requestType: 'Pick up',
+                        discountDetails: '20%',
+                        discounted: true,
+                        riderDetails: 'Az'
 
 
-                  ) );
+                    ) );
+                  }
+                  else{
+                    //Fluttertoast.showToast(msg: "${itemsCheck.namesConcatenated} just sold out! ");
+                    Get.snackbar("Change in Stock", "${itemsCheck.namesConcatenated} ${itemsCheck.quantityLeft} left!");
+                  }
 
-                  FirebaseApi().createPushNotification("New Request", "New request received!", await FirebaseApi().generateAccessToken(), adminDeviceFcm);
+
+
+                  // FirebaseApi().createPushNotification("New Request", "New request received!", await FirebaseApi().generateAccessToken(), adminDeviceFcm);
                 },
                 child: Container(
                   alignment: Alignment.center,

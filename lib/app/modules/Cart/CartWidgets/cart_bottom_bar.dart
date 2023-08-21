@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zestypantry/app/modules/Order/views/order_view.dart';
+import 'package:zestypantry/app/routes/app_pages.dart';
 import 'package:zestypantry/globalVariables.dart';
 
 class CartBottomBar extends StatelessWidget{
@@ -62,7 +63,7 @@ class CartBottomBar extends StatelessWidget{
                )),
               GestureDetector(
                 onTap: () {
-                  Get.toNamed(RoutesStr.REQUESTS);
+                  Get.toNamed(Routes.REQUESTS);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
