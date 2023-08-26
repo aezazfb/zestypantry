@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zestypantry/app/modules/Cart/CartWidgets/cartItem.dart';
 import 'package:zestypantry/app/modules/Cart/CartWidgets/cart_bottom_bar.dart';
+import 'package:zestypantry/globalVariables.dart';
 
 import '../controllers/cart_controller.dart';
 
@@ -11,7 +12,15 @@ class CartView extends GetView<CartController> {
   const CartView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var checkedValue = true;
+    // var checkedValue = true;
+    if(cartItems.isNotEmpty){
+      cartSubTotal.value = 0;
+      for(int ix = 0; ix<cartItems.length; ix++){
+        cartSubTotal += cartItems[ix]["price"] *  cartItems[ix]["itemCountInCart"];
+      }
+      serviceCharges.value = (cartSubTotal.value * serviceChargePc).toInt();
+      totalOrderCharges.value = cartSubTotal.value + (cartSubTotal.value * serviceChargePc).toInt();
+    }
     return Scaffold(
       body: ListView(
         children: [
@@ -24,11 +33,11 @@ class CartView extends GetView<CartController> {
                   },
                   child: const Icon(Icons.arrow_back_ios_new),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 7),
-                  child: Text("  MyCart",
+                 Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
+                  child: Text("MyCart",
                     style: TextStyle(
-                      color: Color(0xFFFFB608),
+                      color: themeBtnColor,
                       fontSize: 19,
                     ),),
                 ),
@@ -36,8 +45,8 @@ class CartView extends GetView<CartController> {
                 InkWell(onTap: () {
 
                 },
-                    child: const Icon(CupertinoIcons.bell_fill,
-                      color: Color(0xFFFFB608),)
+                    child:  Icon(CupertinoIcons.bell_fill,
+                      color: themeBtnColor,)
                 )
               ],
             ),
@@ -77,68 +86,68 @@ class CartView extends GetView<CartController> {
                   color: Colors.black.withOpacity(0.2),
                 )]
             ),
-            child: const Column(
+            child: Obx(() => Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Sub-Total",
+                     Text("Sub-Total",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
-                    Text("\$300",
-                      style: TextStyle(
+                    Text("Rs $cartSubTotal",
+                      style:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                   ],
                 ),
-                Divider(thickness: 1, height: 20,),
+                const Divider(thickness: 1, height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Service-Charges",
+                     Text("Service-Charges",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
-                    Text("\$100",
-                      style: TextStyle(
+                    Text("Rs $serviceCharges",
+                      style:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                   ],
                 ),
-                Divider(thickness: 1, height: 20,),
-                Row(
+                const Divider(thickness: 1, height: 20,),
+                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Discount",
+                     Text("Discount",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
-                    Text("-\$51",
-                      style: TextStyle(
+                    Text("Rs $discountAmount",
+                      style:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(166, 0, 0, 0)
+                          color: themeBtnColor
                       ),),
                   ],
                 ),
-                Divider(thickness: 1, height: 20,)
+                const Divider(thickness: 1, height: 20,)
               ],
-            ),
+            )),
           )
         ],
       ),
-      bottomNavigationBar: CartBottomBar(),
+      bottomNavigationBar: const CartBottomBar(),
     );
   }
 }

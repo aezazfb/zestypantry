@@ -1,9 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:zestypantry/app/data/Repositories/globalRepo.dart';
 import 'package:zestypantry/app/data/models/product_model.dart';
+import 'package:zestypantry/app/routes/app_pages.dart';
 import 'package:zestypantry/globalVariables.dart';
+import 'package:zestypantry/app/data/Converters/cartItemFromProduct.dart' as CartItemConverter;
+
+import '../../../data/models/itemAvailable.dart';
 
 class HomePagePost extends StatelessWidget {
    HomePagePost({
@@ -27,8 +33,27 @@ class HomePagePost extends StatelessWidget {
 
   dynamic mappedProduct;
 
-
-
+   // final FirebaseFirestore theDatabase = FirebaseFirestore.instance;
+   //
+   // Future<bool> itemQuantityCheck(String productID) async{
+   //   bool itemAvailable = true;
+   //   bool stockAvailable;
+   //   int itemStockQuantity;
+   //   DocumentSnapshot theDoc = await theDatabase.collection("product").doc(productID).get();
+   //   stockAvailable = theDoc.get("inStock");
+   //   itemStockQuantity = theDoc.get("quantity");
+   //
+   //   if(stockAvailable == false){
+   //
+   //
+   //
+   //   }else{
+   //     // if(itemStockQuantity < item['itemCountInCart']){
+   //     //
+   //     // }
+   //   }
+   //   return itemAvailable;
+   // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +77,7 @@ class HomePagePost extends StatelessWidget {
             onTap: (){
               //Navigator.pushNamed(context, "ItemPage");
               Fluttertoast.showToast(msg: itemName);
-              Get.toNamed("/item", arguments: mappedProduct);
+              Get.toNamed(Routes.ITEM, arguments: mappedProduct);
             },
             child: mappedProduct.productImage !=  null ? CachedNetworkImage(
             imageUrl: mappedProduct.productImage ?? itemImage ?? "assets/imgs/cover2.jpg",
@@ -89,10 +114,10 @@ class HomePagePost extends StatelessWidget {
                 Row(
                   children: [
                     Text("Rs ${mappedProduct.price ?? itemPrice ?? "100"}",
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFFFB608),
+                        color: themeBtnColor,
                       ),),
                     const SizedBox(height: 5,),
                     Text(" / ${mappedProduct.unit ?? itemUnit ?? "item"}",
@@ -104,57 +129,54 @@ class HomePagePost extends StatelessWidget {
                     const Spacer(),
 
                     Container(
-                      height: 35,
-                      width: 35,
-                      decoration: const BoxDecoration(
-                          color: Colors.amber,
-                          shape: BoxShape.circle
-                      ),
+                      // height: 35,
+                      // width: 35,
+                      // decoration:  BoxDecoration(
+                      //     color: themeBtnColor,
+                      //     shape: BoxShape.circle
+                      // ),
                       child: InkWell(
-                        onTap: (){
-                          Fluttertoast.showToast(msg: "Added To Cart!");
-                          //cartButtonView.value = !cartButtonView.value;
-                          //cartItemsCount++;
-                          const productAddedCount = 1;
-                          bool itemAlreadyAdded = false;
-                          if(cartAddedItems.isEmpty){
-                            final addedItem = [mappedProduct.productID, productAddedCount];
-                            cartAddedItems.add(addedItem);
+                        onTap: () async {
+
+                          ItemAvailable itemQuantityCheck = await GlobalFunctions().itemQuantityCheck(mappedProduct.productID);
+
+
+                          if(itemQuantityCheck.available){
+                            if(cartItems.isEmpty){
+
+                              var itemSelected = CartItemConverter.cartItem(mappedProduct);
+                              cartItems.add(itemSelected);
+                              //Fluttertoast.showToast(msg: "${itemSelected["name"]} Added to Cart!");
+
+                            }else{
+
+                              var existingItem = cartItems.where((element) => element["productID"] == mappedProduct.productID).firstOrNull;
+
+                              if(existingItem == null){
+
+                                var itemSelected = CartItemConverter.cartItem(mappedProduct);
+                                cartItems.add(itemSelected);
+                                //Fluttertoast.showToast(msg: "${itemSelected["name"]} Added to Cart!");
+
+                              }
+                              else if (itemQuantityCheck.noOfItems > existingItem["itemCountInCart"]){
+                                existingItem["itemCountInCart"] += 1;
+                                Fluttertoast.showToast(msg: "${existingItem["itemCountInCart"]} ${existingItem["name"]} in Cart!");
+                              }
+                              else{
+                                Fluttertoast.showToast(msg: "Maximum Quantity Reached!");
+                              }
+                            }
+                            cartTotalItems.value = GlobalFunctions().totalItemsInCart(cartItems);
                           }
                           else{
-                            for(int indx = 0; indx < cartAddedItems.length; indx++){
-                              if(cartAddedItems[indx][0] == mappedProduct.productID){
-
-                                itemAlreadyAdded = true;
-                                // Fluttertoast.showToast(msg: "moajoud $itemAlreadyAdded");
-                                cartAddedItems[indx][1] = cartAddedItems[indx][1] +1;
-                                currentItemCount.value = cartAddedItems[indx][1];
-                                Fluttertoast.showToast(msg: "itne $currentItemCount");
-                              }
-                              // else{
-                              //   final addedItem = [mappedProduct.productID, productAddedCount];
-                              //   cartAddedItems.add(addedItem);
-                              //   currentItemCount.value = 1;
-                              // }
-                            }
-                          }
-
-                          if(!itemAlreadyAdded){
-                            final addedItem = [mappedProduct.productID, productAddedCount];
-                            cartAddedItems.add(addedItem);
-                            currentItemCount.value = 1;
-
-                            final cartItem = [mappedProduct.productID, mappedProduct.name,
-                              mappedProduct.price, mappedProduct.unit,
-                              mappedProduct.quantity, mappedProduct.productImage];
-                            cartItems.add(cartItem);
+                            Fluttertoast.showToast(msg: "Out of Stock!");
                           }
 
 
-                          cartItemsCount.value = cartItems.length;
                         },
-                        child: const Icon(Icons.add_shopping_cart,
-                          color: Colors.white70,
+                        child:  Icon(Icons.add_shopping_cart,
+                          color: themeBtnColor,
                           size: 23,),
 
                       ),
@@ -172,7 +194,7 @@ class HomePagePost extends StatelessWidget {
                     //     size: 29,
                     //   )
                     //       : const Icon(Icons.favorite_outline_rounded,
-                    //     color: Color(0xFFFFB608),
+                    //     color: themeBtnColor,
                     //     size: 29,),
                     //
                     // )),

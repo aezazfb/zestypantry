@@ -1,24 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:zestypantry/app/data/models/product_model.dart';
+
+import 'package:get/get.dart';
+import 'package:zestypantry/app/data/functionalities/firebaseMessaging.dart';
+import 'package:zestypantry/app/data/models/requests_model.dart';
 import 'package:zestypantry/globalVariables.dart';
 
-class AddProductWidget extends StatelessWidget {
-  AddProductWidget({Key? key}) : super(key: key);
+import '../controllers/order_controller.dart';
 
-  final FirebaseFirestore theDatabase = FirebaseFirestore.instance;
-  addProduct(Product productData) async {
-    await theDatabase.collection("product").add(productData.toMap()).whenComplete(() => Fluttertoast.showToast(msg: "New Product added!"));
-  }
+class OrderView extends GetView<OrderController> {
+  OrderView({Key? key}) : super(key: key);
 
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController mobileCtrl  = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
-  TextEditingController descrCtrl = TextEditingController();
-
-  final CollectionReference _red =
-  FirebaseFirestore.instance.collection("product");
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +39,7 @@ class AddProductWidget extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 15, top: 20),
                 alignment: Alignment.centerLeft,
                 child: const Text(
-                  "Product Details",
+                  "Order Details",
                   style: TextStyle(
                       fontSize: 25,
                       color: Color.fromARGB(162, 0, 0, 0),
@@ -81,30 +76,11 @@ class AddProductWidget extends StatelessWidget {
                 ),
                 width: 370,
                 child: TextFormField(
-                  controller: descrCtrl,
-                  decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "descr",
-                      hintStyle: TextStyle(
-                          fontSize: 20
-                      )
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 15, top: 15),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                width: 370,
-                child: TextFormField(
                   controller: mobileCtrl,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Unit",
+                      hintText: "Mobile",
                       hintStyle: TextStyle(
                           fontSize: 20
                       )
@@ -121,10 +97,10 @@ class AddProductWidget extends StatelessWidget {
                 width: 370,
                 child: TextFormField(
                   controller: addressCtrl,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.streetAddress,
                   decoration: const InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Price",
+                      hintText: "Address",
                       hintStyle: TextStyle(
                           fontSize: 20
                       )
@@ -133,25 +109,25 @@ class AddProductWidget extends StatelessWidget {
               ),
               const SizedBox(height: 50,),
               InkWell(
-                onTap: () {
+                onTap: () async {
+                  controller.addRequest(Requests(
+                    requestDateTime: DateTime.now(),
+                    requestStatus: 'Processing',
+                    requestAmount: totalOrderCharges.value,
+                    requestDetails: 'The test Request',
+                    customerDetails: [nameCtrl.text, addressCtrl.text, mobileCtrl.text, 'customer era'],
+                    requestedItems: cartItems.value,
+                    address: addressCtrl.text,
+                    sellerID: 1,
+                    consumerContact: mobileCtrl.text,
+                    requestType: 'Pick up',
+                    discountDetails: '20%',
+                    discounted: true,
+                    riderDetails: 'Az'
 
-                  // DatabaseService(uid: 312.toString()).updateProduct(nameCtrl.text, int.parse(mobileCtrl.text.isNotEmpty == true ? mobileCtrl.text : "0"), addressCtrl.text).then((value){
-                  //   Fluttertoast.showToast(msg: "Order Has Been Placed!");
 
-                  // });
+                  ) );
 
-                  // _red.add({
-                  //   'name': nameCtrl.text,
-                  //   'expiry': addressCtrl.text,
-                  //   'quantity':int.parse(mobileCtrl.text.isNotEmpty == true ? mobileCtrl.text : "0")
-                  // }).whenComplete(() => Fluttertoast.showToast(msg: "New Item added!"));
-
-                  addProduct(Product(
-                    name: nameCtrl.text,
-                    price: int.parse(addressCtrl.text),
-                    unit: mobileCtrl.text.isNotEmpty == true ? mobileCtrl.text : "gram",
-                    description: descrCtrl.text
-                  )).whenComplete(() => Fluttertoast.showToast(msg: "New Product added!"));
 
                 },
                 child: Container(

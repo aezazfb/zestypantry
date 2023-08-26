@@ -95,19 +95,19 @@ class Product {
     return data;
   }
 
-  Product.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
-      : name = doc.data()!["name"],
-        quantity = doc.data()!["quantity"],
-        expiry = doc.data()!["expiry"],
-        quality = doc.data()!["quality"],
-        categoryID = doc.data()!["categoryID"],
-        description = doc.data()!["description"],
-        price = doc.data()!["price"],
-        productID = doc.id,
-        sellerID = doc.data()!["sellerID"],
-        productImage = doc.data()!["productImage"],
-        unit = doc.data()!["unit"],
-        inStock = doc.data()?["inStock"];
+    Product.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+        : name = doc.data()!["name"],
+          quantity = doc.data()!["quantity"],
+          expiry = doc.data()!["expiry"],
+          quality = doc.data()!["quality"],
+          categoryID = doc.data()!["categoryID"],
+          description = doc.data()!["description"],
+          price = doc.data()!["price"],
+          productID = doc.id,
+          sellerID = doc.data()!["sellerID"],
+          productImage = doc.data()!["productImage"],
+          unit = doc.data()!["unit"],
+          inStock = doc.data()?["inStock"];
 }
 
 

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:zestypantry/globalVariables.dart';
 
 import '../controllers/item_controller.dart';
 
@@ -15,7 +16,7 @@ class ItemView extends GetView<ItemController> {
       body: ListView(
         children: [
           Container(
-            color: const Color.fromARGB(255, 255, 230, 177),
+            //color: const Color.fromARGB(255, 255, 230, 177),
             width: double.infinity,
             height: 390,
             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -38,7 +39,7 @@ class ItemView extends GetView<ItemController> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: themeBackGroundColor,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [BoxShadow(
                             color: Colors.grey.withOpacity(0.3),
@@ -47,7 +48,9 @@ class ItemView extends GetView<ItemController> {
                         )],
 
                       ),
-                      child: const Icon(Icons.favorite),
+                      child: const Icon(
+                          Icons.favorite,
+                      color: Colors.white70,),
                     )
                   ],
                 ),
@@ -89,10 +92,10 @@ class ItemView extends GetView<ItemController> {
                  Column(
                   children: [
                     Text("Rs ${data.price}",
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFFFB608),
+                        color: themeBtnColor,
                       ),),
                      Text("Per ${data.unit}",
                       style: const TextStyle(
@@ -135,54 +138,54 @@ class ItemView extends GetView<ItemController> {
                 ]),
           ),
           const SizedBox(height: 9,),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(padding: EdgeInsets.only(left: 19),
-                child: Text("You May Like",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-
-                  ),),),
-              const SizedBox(
-                height: 5,
-              ),
-
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    for(int x = 1; x<=4; x++)
-                      Container(
-                        height: 90,
-                        width: 90,
-                        padding: const EdgeInsets.all(5),
-                        margin: const EdgeInsets.only(top: 8, bottom: 8, left: 20),
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 255, 230, 177),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  color: Colors.black.withOpacity(0.2)
-                              ),
-                            ]
-                        ),
-
-                        child: Image.asset("assets/1.png",
-                          fit: BoxFit.contain,
-                        ),
-
-                      )
-                  ],
-                ),
-              )
-
-            ],
-          )
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     const Padding(padding: EdgeInsets.only(left: 19),
+          //       child: Text("You May Like",
+          //         style: TextStyle(
+          //           fontSize: 20,
+          //           fontWeight: FontWeight.bold,
+          //
+          //         ),),),
+          //     const SizedBox(
+          //       height: 5,
+          //     ),
+          //
+          //     SingleChildScrollView(
+          //       scrollDirection: Axis.horizontal,
+          //       child: Row(
+          //         children: [
+          //           for(int x = 1; x<=4; x++)
+          //             Container(
+          //               height: 90,
+          //               width: 90,
+          //               padding: const EdgeInsets.all(5),
+          //               margin: const EdgeInsets.only(top: 8, bottom: 8, left: 20),
+          //               decoration: BoxDecoration(
+          //                   color: const Color.fromARGB(255, 255, 230, 177),
+          //                   borderRadius: BorderRadius.circular(10),
+          //                   boxShadow: [
+          //                     BoxShadow(
+          //                         spreadRadius: 1,
+          //                         blurRadius: 5,
+          //                         color: Colors.black.withOpacity(0.2)
+          //                     ),
+          //                   ]
+          //               ),
+          //
+          //               child: Image.asset("assets/1.png",
+          //                 fit: BoxFit.contain,
+          //               ),
+          //
+          //             )
+          //         ],
+          //       ),
+          //     )
+          //
+          //   ],
+          // )
         ],
       ),
       //bottomNavigationBar: ItemBottomBar(),

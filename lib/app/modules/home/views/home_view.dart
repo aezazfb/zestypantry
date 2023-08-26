@@ -7,11 +7,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zestypantry/PersonalWidgets/AddProductWidget.dart';
+import 'package:zestypantry/app/modules/home/home_view_widgets/ZestyDrawer.dart';
 import 'package:zestypantry/app/modules/item/ItemWidgets/ItemCard.dart';
 import 'package:zestypantry/app/modules/home/home_view_widgets/imgCurson.dart';
 import 'package:zestypantry/app/data/models/product_model.dart';
 import 'package:zestypantry/app/modules/Cart/views/cart_view.dart';
 import 'package:zestypantry/app/modules/home/home_view_widgets/home_bottom_bar.dart';
+import 'package:zestypantry/app/routes/app_pages.dart';
 import 'package:zestypantry/globalVariables.dart';
 
 import '../controllers/home_controller.dart';
@@ -34,15 +36,16 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const ZestyDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Obx(() => Visibility(
-        visible: cartItemsCount >= 1,
+        visible: cartItems.isNotEmpty,
         child: FloatingActionButton(
 
 
           onPressed: () {
             Fluttertoast.showToast(msg: "View Cart! ");
-            Get.toNamed("/cart");
+            Get.toNamed(Routes.CART);
             // Get.to(const CartView());
 
 
@@ -57,18 +60,19 @@ class HomeView extends GetView<HomeController> {
 
 
           },
-          backgroundColor: Colors.amber,
+          backgroundColor: themeBackGroundColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => Text("${cartItemsCount.value}"),),
+              Obx(() => Text("${cartTotalItems.value}"),),
               const Icon(Icons.shopping_cart),
             ],
           ),
         ),
       )),
       appBar: AppBar(
-        title: const Text('HomeView'),
+        backgroundColor: themeBackGroundColor,
+        title: const Text('Zesty Pantry'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

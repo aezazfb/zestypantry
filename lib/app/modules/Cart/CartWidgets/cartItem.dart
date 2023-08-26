@@ -18,13 +18,13 @@ class _CartItemState extends State<CartItem> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //for (int x = 0; x < cartItemsCount.value - 1; x++)
+        //for (int x = 0; x <  cartItems.length - 1; x++)
           Obx(() => ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount:cartItemsCount.value,
+              itemCount:cartItems.length,
               itemBuilder: (context,index){
-                var cartAddedItemVar = cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first;
+                //var cartAddedItemVar = cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first;
                 //List currentAddedItem = im.toList();
                 return  Container(
                   margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
@@ -39,27 +39,27 @@ class _CartItemState extends State<CartItem> {
                           //       checkedValue = val!;
                           //     });
                           //   },
-                          //   activeColor: const Color(0xFFFFB608),
+                          //   activeColor: const themeBtnColor,
                           // ),
                           Container(
                             height: 70,
                             width: 70,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 255, 230, 177),
-                              boxShadow: [
-                                BoxShadow(
-                                    spreadRadius: 1,
-                                    blurRadius: 5,
-                                    color: Colors.black.withOpacity(0.2))
-                              ],
-                            ),
+                            // decoration: BoxDecoration(
+                            //   color: const Color.fromARGB(255, 255, 230, 177),
+                            //   boxShadow: [
+                            //     BoxShadow(
+                            //         spreadRadius: 1,
+                            //         blurRadius: 5,
+                            //         color: Colors.black.withOpacity(0.2))
+                            //   ],
+                            // ),
                             child: Image.asset(fit: BoxFit.contain, "assets/imgs/1.png"),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Column(
                               children: [
-                                Text(cartItemsCount.value > 0 ? cartItems[index][1]: "Item",
+                                Text( cartItems.isNotEmpty ? cartItems[index]["name"]: "Item",
                                   style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w500,
@@ -71,21 +71,21 @@ class _CartItemState extends State<CartItem> {
                                  Row(
                                   children: [
                                     Text(
-                                      "Rs ${cartItemsCount.value > 0 ? cartItems[index][2] : 100}",
-                                      style: const TextStyle(
+                                      "Rs ${ cartItems.isNotEmpty ? cartItems[index]["price"] : 100}",
+                                      style:  TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFFFB608)),
+                                          color: themeBtnColor),
                                     ),
                                     const SizedBox(
                                       height: 5,
                                     ),
                                     Text(
-                                      " / ${cartItemsCount.value > 0 ? cartItems[index][3] : "Unit"}",
-                                      style: const TextStyle(
+                                      " / ${ cartItems.isNotEmpty ? cartItems[index]["unit"] : "Unit"}",
+                                      style:  TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFFFB608)),
+                                          color: themeBtnColor),
                                     ),
                                   ],
                                 )
@@ -103,8 +103,12 @@ class _CartItemState extends State<CartItem> {
                                   color: Colors.redAccent,
                                 ),
                                 onTap: (){
+                                  if(cartItems.isNotEmpty){
+                                    cartSubTotal -= cartItems[index]["price"] * cartItems[index]["itemCountInCart"];
+                                    serviceCharges.value = (cartSubTotal.value * serviceChargePc).toInt();
+                                    totalOrderCharges.value = cartSubTotal.value + (cartSubTotal.value * serviceChargePc).toInt();
+                                  }
                                   cartItems.removeAt(index);
-                                  cartItemsCount--;
                                 },
                               ),
                               const SizedBox(
@@ -116,15 +120,22 @@ class _CartItemState extends State<CartItem> {
                                     onTap: () {
 
                                       setState(() {
-                                        cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first[1] =
-                                            cartAddedItemVar[1] - 1;
+                                        cartItems[index]["itemCountInCart"] -= 1;
+                                        if(cartItems.isNotEmpty){
+                                          cartSubTotal -= cartItems[index]["price"];
+                                          serviceCharges.value = (cartSubTotal.value * serviceChargePc).toInt();
+                                          totalOrderCharges.value = cartSubTotal.value + (cartSubTotal.value * serviceChargePc).toInt();
+                                        }
+                                        if(cartItems[index]["itemCountInCart"] == 0 ){
+                                          cartItems.removeAt(index);
+                                        }
                                       });
                                     },
                                     child: Container(
                                       height: 25,
                                       width: 25,
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFFFB608),
+                                        color:  themeBtnColor,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: const Icon(CupertinoIcons.minus),
@@ -135,26 +146,28 @@ class _CartItemState extends State<CartItem> {
                                     width: 25,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      // color: Color(0xFFFFB608),
+                                      // color: themeBtnColor,
                                       borderRadius: BorderRadius.circular(5),
                                     ),
-                                    child: Text(cartAddedItemVar[1].toString()),
+                                    child: Text(cartItems[index]["itemCountInCart"].toString()),
                                   ),
                                   GestureDetector(
                                     onTap: () {
 
                                       setState(() {
-                                        cartAddedItems.where((p0) => p0[0] == cartItems[index][0]).first[1] =
-                                            cartAddedItemVar[1] + 1;
+                                        cartItems[index]["itemCountInCart"] += 1;
+                                        if(cartItems.isNotEmpty){
+                                          cartSubTotal += cartItems[index]["price"];
+                                          serviceCharges.value = (cartSubTotal.value * serviceChargePc).toInt();
+                                          totalOrderCharges.value = cartSubTotal.value + (cartSubTotal.value * serviceChargePc).toInt();
+                                        }
                                       });
-                                      // var x = "${cartAddedItems.where((p0) => p0[0] == cartItems[index][0])}";
-                                      // Fluttertoast.showToast(msg: x);
                                     },
                                     child: Container(
                                       height: 25,
                                       width: 25,
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFFFB608),
+                                        color:  themeBtnColor,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: const Icon(Icons.add),
