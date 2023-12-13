@@ -10,6 +10,8 @@ abstract class Routes {
   static const REQUESTS = _Paths.REQUESTS;
   static const LOGIN = _Paths.LOGIN;
   static const AUTHENTICATION = _Paths.AUTHENTICATION;
+  static const MAINMENU = _Paths.MAINMENU;
+  static const FOODS_HOME = _Paths.FOODS_HOME;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const REQUESTS = '/requests';
   static const LOGIN = '/login';
   static const AUTHENTICATION = '/authentication';
+  static const MAINMENU = '/mainmenu';
+  static const FOODS_HOME = '/foods-home';
 }

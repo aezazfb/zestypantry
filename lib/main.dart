@@ -17,7 +17,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       initialBinding: StartUpBinding(),
-      title: "Application",
+      title: "Zesty Pantry!",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),

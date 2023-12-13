@@ -16,6 +16,7 @@ import 'package:zestypantry/app/modules/home/home_view_widgets/home_bottom_bar.d
 import 'package:zestypantry/app/routes/app_pages.dart';
 import 'package:zestypantry/globalVariables.dart';
 
+import '../../item/ItemWidgets/search_item.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -32,10 +33,12 @@ class HomeView extends GetView<HomeController> {
   final CollectionReference _red =
   FirebaseFirestore.instance.collection("product");
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       drawer: const ZestyDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Obx(() => Visibility(
@@ -71,6 +74,10 @@ class HomeView extends GetView<HomeController> {
         ),
       )),
       appBar: AppBar(
+        leading: InkWell(child: const Icon(Icons.ac_unit),
+        onTap: (){
+          _scaffoldKey.currentState?.openDrawer();
+        },),
         backgroundColor: themeBackGroundColor,
         title: const Text('Zesty Pantry'),
         centerTitle: true,
@@ -136,7 +143,7 @@ class HomeView extends GetView<HomeController> {
                         shrinkWrap: true,
                         children: [
                           for(int index = 0; index <= theProductsCount - 1; index++)
-                            HomePagePost(itemName: theProducts[index]["name"].toString(),
+                            SearchPageItem(itemName: theProducts[index]["name"].toString(),
                             theItem: theProducts[index],)
                         ],)
                     ],

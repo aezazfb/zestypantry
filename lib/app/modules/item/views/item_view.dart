@@ -58,10 +58,12 @@ class ItemView extends GetView<ItemController> {
               data.productImage != null ? CachedNetworkImage(
                   imageUrl: data.productImage,
                 width: 280,
+                height: 290,
                 fit: BoxFit.contain,
               ) : Image.asset(
                 "assets/imgs/1.png",
                 width: 280,
+                height: 290,
                 fit: BoxFit.contain,)
             ]),
           ),

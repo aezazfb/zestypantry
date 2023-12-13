@@ -11,6 +11,7 @@ class HomeController extends GetxController {
 
   final count = 0.obs;
   dynamic theProducts;
+  TextEditingController searchController = TextEditingController();
   final FirebaseFirestore theDatabase = FirebaseFirestore.instance;
   final CollectionReference theProductCollection =
   FirebaseFirestore.instance.collection("product");
@@ -71,6 +72,11 @@ class HomeController extends GetxController {
   Future<void> getProduct(String documentId) async {
     await theDatabase.collection("product").doc(documentId).get();
 
+  }
+
+  Future<DocumentSnapshot> getCats() async{
+    DocumentSnapshot theDoc = await FirebaseFirestore.instance.collection("productCategory").doc("w4YFPY2VJaToERIU60rL").get();
+    return theDoc;
   }
 
   Future<List<Product>> retrieveProducts() async {
